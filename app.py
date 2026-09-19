@@ -444,7 +444,7 @@ def create_app(database=None, testing=False):
             result['orders']=rows(conn,'SELECT o.*,c.name AS contact_name FROM orders o JOIN contacts c ON c.id=o.contact_id ORDER BY o.date DESC,o.id DESC')
             result['entries']=rows(conn,'SELECT e.*,j.name AS journal_name,SUM(l.debit) AS total FROM entries e JOIN journals j ON j.id=e.journal_id JOIN entry_lines l ON l.entry_id=e.id GROUP BY e.id,j.name ORDER BY e.date DESC,e.id DESC')
             result['expenses']=rows(conn,'SELECT x.*,a.name AS account_name FROM expenses x JOIN accounts a ON a.id=x.account_id ORDER BY x.date DESC,x.id DESC')
-            result['stock']=rows(conn,"SELECT p.id,p.name,p.category,p.cost,p.active,COALESCE(SUM(s.quantity),0) AS quantity FROM products p LEFT JOIN stock_moves s ON s.product_id=p.id WHERE p.type!='Service' GROUP BY p.id")
+            result['stock']=rows(conn,"SELECT p.id,p.name,p.category,p.sku,p.unit,p.reorder_level,p.cost,p.active,COALESCE(SUM(s.quantity),0) AS quantity FROM products p LEFT JOIN stock_moves s ON s.product_id=p.id WHERE p.type!='Service' GROUP BY p.id")
             result['audit']=rows(conn,'SELECT a.*,u.name AS user_name FROM audit a LEFT JOIN users u ON u.id=a.user_id ORDER BY a.id DESC LIMIT 100')
             if g.user['role']=='admin':
                 result['users']=rows(conn,'SELECT id,name,email,role,contact_id,active FROM users ORDER BY id')

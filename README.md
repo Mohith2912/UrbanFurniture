@@ -118,7 +118,26 @@ The role experience now follows the PeoplePay360 conventions: an enterprise side
 
 ## Next.js frontend
 
-The new frontend lives in `Frontend/` and follows the PeoplePay360 client stack: Next.js App Router, React, Tailwind CSS 4, Zustand-ready client state, Lucide icons and a same-origin API rewrite to the accounting service.
+The primary frontend lives in `Frontend/` and follows the PeoplePay360 client stack: Next.js App Router, React, Tailwind CSS 4, Lucide icons and a same-origin API rewrite to the accounting service. It provides separate protected routes for the dashboard, contacts, products, inventory, sales and purchases, invoices and bills, expenses, payments, payment approvals, accounting, reports, activity and settings. The shared workspace provider loads the authenticated session, enforces role-aware navigation and refreshes live data through server-sent events.
+
+```text
+Frontend/src
+├── app
+│   ├── (workspace)          Protected application routes and shared layout
+│   ├── login               Sign-in route
+│   ├── globals.css         Responsive UI and printable invoice design
+│   └── layout.jsx          Root document layout
+├── components
+│   ├── app-shell.jsx       Sidebar, header, theme and role navigation
+│   ├── workspace-provider.jsx  Session, live data and realtime refresh
+│   ├── page-ui.jsx         Shared panels, dialogs and form feedback
+│   ├── master-page.jsx     Contact and product workflows
+│   └── invoice-view.jsx    GST invoice, payment and print workflow
+└── lib
+    ├── api.js              CSRF-aware API client
+    ├── format.js           INR and date formatting
+    └── navigation.js       Route and role definitions
+```
 
 ```powershell
 cd E:\UrbanFurniture\Frontend
@@ -126,6 +145,6 @@ npm install
 npm run dev
 ```
 
-The Next.js interface runs at `http://127.0.0.1:3000` while Flask continues to provide the accounting API on port `5050`. Set `URBAN_BACKEND_URL` when the backend is hosted elsewhere. The current production URL on port `5050` remains available as the stable legacy shell until the Next frontend is promoted as the primary server entry point.
+The Next.js interface runs at `http://127.0.0.1:3000` while Flask provides the accounting API on port `5050`. Set `URBAN_BACKEND_URL` when the backend is hosted elsewhere. The Flask-rendered interface on port `5050` remains available as a fallback and compatibility interface.
 
 For a one-command Windows launch of the Next.js interface and backend, run `E:\UrbanFurniture\start-next.ps1`.
