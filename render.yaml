@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: urban-furniture
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python serve.py
+    healthCheckPath: /api/session
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: URBAN_SECRET
+        generateValue: true
+      - key: URBAN_HTTPS
+        value: "1"
+      - key: URBAN_HOST
+        value: "0.0.0.0"
