@@ -148,3 +148,7 @@ npm run dev
 The Next.js interface runs at `http://127.0.0.1:3000` while Flask provides the accounting API on port `5050`. Set `URBAN_BACKEND_URL` when the backend is hosted elsewhere. The Flask-rendered interface on port `5050` remains available as a fallback and compatibility interface.
 
 For a one-command Windows launch of the Next.js interface and backend, run `E:\UrbanFurniture\start-next.ps1`.
+
+## Demo workspace
+
+Run `python scripts/seed_demo.py` to create or restore the three role accounts shown on the login page. The script also creates three repeatable demonstrations: a GST vendor purchase that receives stock, a GST customer sale with a partial payment, and a paid showroom expense. It is safe to run again because named demo records and completed workflows are reused.
