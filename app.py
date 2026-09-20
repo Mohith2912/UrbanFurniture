@@ -308,14 +308,23 @@ def validate_master(db, table, data):
 
 def create_app(database=None, testing=False):
     app=Flask(__name__,static_folder='static')
-    if not testing:load_env(ROOT/'.env')
-    target=str(database or os.environ.get('DATABASE_URL') or os.environ.get('URBAN_DB', ROOT/'data'/'urban.sqlite3'))
+    if not testing and not os.environ.get('VERCEL'):
+        load_env(ROOT/'.env')
+    if os.environ.get('VERCEL') and database is None and not os.environ.get('DATABASE_URL'):
+        raise RuntimeError('DATABASE_URL is required for a Vercel deployment.')
+    configured_database=database or os.environ.get('DATABASE_URL') or os.environ.get('URBAN_DB')
+    target=str(configured_database or ROOT/'data'/'urban.sqlite3')
     folder=ROOT/'data' if is_postgres(target) else Path(target).parent
-    folder.mkdir(parents=True,exist_ok=True)
-    secret_path=folder/'.secret'
-    if not secret_path.exists():
-        secret_path.write_text(secrets.token_hex(32),encoding='utf-8')
-    app.config.update(SECRET_KEY=os.environ.get('URBAN_SECRET',secret_path.read_text(encoding='utf-8')),DATABASE=target,TESTING=testing,SESSION_COOKIE_NAME=('urban_qa' if testing else 'session'),SESSION_COOKIE_HTTPONLY=True,SESSION_COOKIE_SAMESITE='Strict',SESSION_COOKIE_SECURE=os.environ.get('URBAN_HTTPS')=='1',PERMANENT_SESSION_LIFETIME=timedelta(hours=8),MAX_CONTENT_LENGTH=2*1024*1024)
+    configured_secret=os.environ.get('URBAN_SECRET')
+    if os.environ.get('VERCEL') and not configured_secret:
+        raise RuntimeError('URBAN_SECRET is required for a Vercel deployment.')
+    if not configured_secret:
+        folder.mkdir(parents=True,exist_ok=True)
+        secret_path=folder/'.secret'
+        if not secret_path.exists():
+            secret_path.write_text(secrets.token_hex(32),encoding='utf-8')
+        configured_secret=secret_path.read_text(encoding='utf-8')
+    app.config.update(SECRET_KEY=configured_secret,DATABASE=target,TESTING=testing,SESSION_COOKIE_NAME=('urban_qa' if testing else 'session'),SESSION_COOKIE_HTTPONLY=True,SESSION_COOKIE_SAMESITE='Strict',SESSION_COOKIE_SECURE=os.environ.get('URBAN_HTTPS')=='1',PERMANENT_SESSION_LIFETIME=timedelta(hours=8),MAX_CONTENT_LENGTH=2*1024*1024)
     with closing(connect(target)) as conn:
         conn.executescript(postgres_schema(SCHEMA) if is_postgres(target) else SCHEMA)
         if not is_postgres(target):conn.execute('PRAGMA journal_mode=WAL')

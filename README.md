@@ -84,6 +84,17 @@ Supported environment settings:
 | `URBAN_SECRET` | persisted `data/.secret` | Optional session signing secret |
 | `URBAN_HTTPS` | unset | Set to `1` behind HTTPS for secure cookies |
 
+## Vercel production deployment
+
+The production setup uses two Vercel projects connected to this repository:
+
+1. Deploy the repository root as the Flask API project. Add `DATABASE_URL`, a long random `URBAN_SECRET`, and `URBAN_HTTPS=1` to Production and Preview.
+2. Deploy `Frontend` as the Next.js web project. Add `URBAN_BACKEND_URL` with the API project's public HTTPS URL.
+3. Connect a PostgreSQL provider such as Neon or Supabase from the Vercel Marketplace to the API project. Use its pooled TLS connection string for `DATABASE_URL`.
+4. Verify the web project's `/api/session` path, then seed the hosted database only if the demonstration accounts are wanted.
+
+The root `vercel.json` configures the Flask function. `Frontend/vercel.json` configures the Next.js project. Vercel requires separate projects because each root uses a different runtime. See `docs/PROJECT_AUDIT.md` for the requirement traceability, security review, business rules and release checks.
+
 ## Validation
 
 ```powershell

@@ -1,0 +1,10 @@
+Frontend
+tests
+docs
+tmp
+scripts
+data
+__pycache__
+.pytest_cache
+.env
+*.pyc
