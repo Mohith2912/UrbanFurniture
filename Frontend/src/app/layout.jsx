@@ -1,4 +1,5 @@
 import './globals.css';
+import './ui-refresh.css';
 
 export const metadata = {
   title: 'Urban Furniture · Business OS',
