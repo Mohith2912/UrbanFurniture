@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { api, getSession } from '@/lib/api';
+import WorkspaceLoader from './workspace-loader';
 
 const WorkspaceContext = createContext(null);
 
@@ -39,8 +40,8 @@ export function WorkspaceProvider({ children }) {
   }, [refresh]);
 
   const value = useMemo(() => ({ user, data, error, live, refresh }), [user, data, error, live, refresh]);
-  if (error && !data) return <main className="next-error"><h1>Unable to open workspace</h1><p>{error}</p><button onClick={() => location.reload()}>Try again</button></main>;
-  if (!user || !data) return <main className="next-loading"><div className="loading-mark">UF</div><p>Opening your workspace…</p></main>;
+  if (error && !data) return <main className="next-error"><div className="error-mark">!</div><small>CONNECTION PAUSED</small><h1>Unable to open workspace</h1><p>{error}</p><button onClick={() => location.reload()}>Try again</button></main>;
+  if (!user || !data) return <WorkspaceLoader />;
   return <WorkspaceContext.Provider value={value}>{children}</WorkspaceContext.Provider>;
 }
 
