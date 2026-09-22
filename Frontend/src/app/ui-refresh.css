@@ -78,6 +78,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .next-user { padding: 15px 3px 0; }
 .next-user > span { background: linear-gradient(145deg, #6d926f, #385b43); border: 1px solid rgb(255 255 255 / 16%); height: 35px; width: 35px; }
 .next-user button:hover { color: #fff; transform: translateY(-1px); }
+.next-sidebar { min-height: 0; overflow-y: auto; }
+.next-sidebar-bottom { padding-top: 18px; }
+.logout-button { align-items: center; background: rgb(255 255 255 / 6%); border: 1px solid rgb(255 255 255 / 16%); border-radius: 11px; color: #dcecdf; display: flex; flex-shrink: 0; font-size: 11px; font-weight: 650; gap: 10px; margin-top: 14px; min-height: 44px; padding: 11px 12px; text-align: left; width: 100%; }
+.logout-button:hover:not(:disabled) { background: rgb(255 255 255 / 12%); border-color: rgb(255 255 255 / 30%); color: #fff; }
+.logout-button:disabled { cursor: wait; opacity: .65; }
+.logout-error { color: #ffd0c4; font-size: 11px; line-height: 1.5; margin: 10px 0 0; }
 
 .next-topbar { backdrop-filter: blur(18px); background: color-mix(in srgb, var(--surface) 84%, transparent); min-height: 82px; padding: 0 34px; }
 .topbar-title { align-items: center; display: flex; gap: 13px; }
