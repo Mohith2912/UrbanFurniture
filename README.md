@@ -126,6 +126,8 @@ The linked Excalidraw mockup in the PDF was unavailable, so the visual system wa
 
 The role experience now follows the PeoplePay360 conventions: an enterprise sidebar and top bar, role-aware navigation, separate workspace context for the owner/admin, accountant and partner/contact roles, and a persistent light/dark theme preference. The accounting service remains Flask/PostgreSQL because that is where the verified ledger, GST and invoice rules live; the shared shell is implemented without changing those financial APIs.
 
+The interface uses restrained visual texture, clear spacing, compact panels and icon-led actions so furniture inventory, financial approvals and invoice work stay easy to scan during repeated daily use. That texture is decorative only where it supports readability; the main workflow remains fast, role-aware and centered on the records that move the business forward.
+
 ## Next.js frontend
 
 The primary frontend lives in `Frontend/` and follows the PeoplePay360 client stack: Next.js App Router, React, Tailwind CSS 4, Lucide icons and a same-origin API rewrite to the accounting service. It provides separate protected routes for the dashboard, contacts, products, inventory, sales and purchases, invoices and bills, expenses, payments, payment approvals, accounting, reports, activity and settings. The shared workspace provider loads the authenticated session, enforces role-aware navigation and refreshes live data through server-sent events.
