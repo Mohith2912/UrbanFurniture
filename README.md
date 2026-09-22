@@ -1,6 +1,6 @@
 # Urban Furniture Business OS
 
-A complete accounting, sales, purchasing and inventory prototype built from `Urban Furniture Accounting System.pdf`. It runs as a responsive Flask web application with a transactional PostgreSQL backend, realtime browser updates, server-calculated GST and professional printable invoices. The active workspace contains no sample customers, products, orders, invoices, payments, expenses or budgets.
+Urban Furniture Business OS is a full furniture-trading workspace that turns daily showroom work into one connected flow: owners and accountants can manage customers, vendors, products, stock, purchases, sales orders, GST invoices, payments, expenses, budgets and reports from a responsive Next.js interface backed by a Flask/PostgreSQL accounting engine, with server-calculated tax, immutable posted records, realtime browser updates, printable invoices and efficient UI texture that keeps dense financial screens readable without slowing down the workflow.
 
 ## Run on Windows
 
