@@ -49,13 +49,12 @@ Configure the legal company identity, GSTIN, state, bank details, invoice note a
 
 ## First-use workflow
 
-1. Complete the company profile.
-2. Add vendor and customer contacts, including GST details where applicable.
-3. Add products with SKU, HSN/SAC, unit, price, cost and reorder level.
-4. Create and post a purchase order to receive stock and generate a vendor bill.
-5. Create and post a sales order to issue stock and generate a GST invoice.
-6. Record Cash/Bank settlements or review contact payment requests.
-7. Use Reports, Statements, Expenses and the action dashboard to operate the workspace.
+1. Complete the company profile with legal identity, GST registration, bank details and invoice terms.
+2. Add vendors, customers and products with GST, HSN/SAC, pricing, cost and reorder details.
+3. Raise and post purchase orders so stock receipts, vendor bills and payable entries stay aligned.
+4. Raise and post sales orders so stock issues, GST invoices and receivable entries are created together.
+5. Record Cash/Bank settlements, approve contact payment requests and track outstanding balances.
+6. Review expenses, budgets, statements, stock alerts, dashboard actions and reports to run the business from the same workspace.
 
 ## Accounting behavior
 
