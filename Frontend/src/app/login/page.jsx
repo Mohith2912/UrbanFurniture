@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowRight, Eye, EyeOff, Layers3, Moon, Radio, ShieldCheck, Sparkles, Sun } from 'lucide-react';
 import Brand from '@/components/brand';
+import { send } from '@/lib/api';
 
 export default function Login() {
   const [error, setError] = useState('');
@@ -24,9 +25,7 @@ export default function Login() {
   async function signIn(email, password, destination = '/dashboard') {
     setError(''); setLoading(email);
     try {
-      const session = await fetch('/api/session', { credentials: 'include' }).then((r) => r.json());
-      const result = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': session.csrf }, credentials: 'include', body: JSON.stringify({ email, password }) });
-      if (!result.ok) { const body = await result.json().catch(() => ({})); throw new Error(body.error || 'Unable to sign in.'); }
+      await send('/login', 'POST', { email, password });
       window.location.href = destination;
     } catch (err) { setError(err.message); setLoading(''); }
   }

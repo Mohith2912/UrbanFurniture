@@ -2,9 +2,21 @@
 
 let csrfToken = '';
 
+async function jsonBody(response) {
+  const text = await response.text();
+  if (!text) return {};
+  try { return JSON.parse(text); }
+  catch {
+    throw new Error(response.ok
+      ? 'The server returned an unexpected response.'
+      : 'The accounting service is temporarily unavailable. Please try again shortly.');
+  }
+}
+
 export async function getSession() {
   const response = await fetch('/api/session', { credentials: 'include', cache: 'no-store' });
-  const body = await response.json();
+  const body = await jsonBody(response);
+  if (!response.ok) throw new Error(body.error || 'The accounting service is temporarily unavailable.');
   csrfToken = body.csrf || '';
   return body;
 }
@@ -21,7 +33,7 @@ export async function api(path, options = {}) {
       ...(options.headers || {}),
     },
   });
-  const body = await response.json().catch(() => ({}));
+  const body = await jsonBody(response);
   if (!response.ok) {
     if (response.status === 401 && typeof window !== 'undefined') window.location.href = '/login';
     throw new Error(body.error || 'The request could not be completed.');

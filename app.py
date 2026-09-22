@@ -350,7 +350,7 @@ def create_app(database=None, testing=False):
                 require(isinstance(request.get_json(silent=True), dict), 'Send a valid JSON object.')
                 if not secrets.compare_digest(str(request.headers.get('X-CSRF-Token','')),str(session.get('csrf','missing'))):
                     return jsonify(error='Your session expired. Refresh the page and try again.'),403
-            if request.path not in ('/api/session','/api/setup','/api/login'):
+            if request.path not in ('/api/health','/api/session','/api/setup','/api/login'):
                 user=db().execute('SELECT id,name,email,role,contact_id FROM users WHERE id=? AND active=1',(session.get('uid'),)).fetchone()
                 if user is None:
                     return jsonify(error='Please sign in.'),401
@@ -395,6 +395,10 @@ def create_app(database=None, testing=False):
     @app.get('/')
     def index():
         return send_from_directory(app.static_folder,'index.html')
+
+    @app.get('/api/health')
+    def health():
+        return jsonify(ok=True,service='urban-furniture-api')
 
     @app.get('/api/session')
     def status():
